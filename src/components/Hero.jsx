@@ -342,7 +342,7 @@ export default function Hero() {
 
             </svg>
 
-            <div className="absolute bottom-8 right-6 max-w-[220px]">
+            <div className="absolute bottom-15 right-1 max-w-[220px]">
 
               <p className="text-xs leading-relaxed text-slate-500">
                 From challenges and uncertainty to{' '}

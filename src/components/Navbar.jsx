@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const navItems = [
@@ -11,8 +12,7 @@ const navItems = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const currentPath = window.location.pathname;
+  const { pathname: currentPath } = useLocation();
 
   const isActive = (href) =>
     href === '/'
@@ -30,8 +30,8 @@ export default function Navbar() {
         <div className="h-16 px-5 sm:px-6 md:px-12 flex items-center">
 
           {/* Logo */}
-          <a
-            href="/"
+          <Link
+            to="/"
             onClick={closeMenu}
             className="flex items-center group shrink-0"
           >
@@ -42,7 +42,7 @@ export default function Navbar() {
             <span className="text-xs font-black tracking-widest text-[#16A34A] uppercase transition-all duration-300 group-hover:tracking-[0.2em]">
               Works LTD
             </span>
-          </a>
+          </Link>
 
           {/* Desktop right side */}
           <div className="ml-auto flex items-center">
@@ -54,9 +54,9 @@ export default function Navbar() {
                 const active = isActive(item.href);
 
                 return (
-                  <a
+                  <Link
                     key={item.label}
-                    href={item.href}
+                    to={item.href}
                     className={`
                       relative px-4 py-2 rounded-full text-sm
                       transition-all duration-200
@@ -69,7 +69,6 @@ export default function Navbar() {
                   >
                     {item.label}
 
-                    {/* Active green indicator */}
                     <span
                       className={`
                         absolute left-1/2 -translate-x-1/2 bottom-0.5
@@ -82,7 +81,7 @@ export default function Navbar() {
                         }
                       `}
                     />
-                  </a>
+                  </Link>
                 );
               })}
 
@@ -90,8 +89,8 @@ export default function Navbar() {
 
             {/* Desktop Get Started */}
             <div className="hidden lg:flex items-center ml-7">
-              <a
-                href="/reach-us"
+              <Link
+                to="/reach-us"
                 className="
                   bg-green-50
                   hover:bg-green-100
@@ -104,7 +103,7 @@ export default function Navbar() {
                 "
               >
                 Get Started
-              </a>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -156,9 +155,9 @@ export default function Navbar() {
               const active = isActive(item.href);
 
               return (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   onClick={closeMenu}
                   className={`
                     relative flex items-center
@@ -179,13 +178,13 @@ export default function Navbar() {
                   {active && (
                     <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#16A34A] rounded-full" />
                   )}
-                </a>
+                </Link>
               );
             })}
 
             {/* Mobile Get Started */}
-            <a
-              href="/reach-us"
+            <Link
+              to="/reach-us"
               onClick={closeMenu}
               className="
                 flex items-center justify-center
@@ -200,7 +199,7 @@ export default function Navbar() {
               "
             >
               Get Started
-            </a>
+            </Link>
 
           </nav>
         </div>
