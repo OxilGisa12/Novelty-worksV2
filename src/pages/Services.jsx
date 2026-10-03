@@ -399,7 +399,7 @@ export default function Services() {
                   </p>
 
                   {/* HORIZONTAL GREEN ACCENT */}
-                  <div className="mt-8 w-12 h-px bg-[#16A34A]" />
+                   <div className="mt-8 w-12 h-[0.5px] bg-[#16A34A]" />
 
                   {/* CTA BUTTONS */}
                   <div className="mt-9 flex flex-wrap items-center gap-4">
