@@ -143,13 +143,23 @@ function InsightCard({ insight }) {
 
 export default function Insights() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
 
-  const filteredInsights =
-    activeCategory === 'All'
-      ? insights
-      : insights.filter(
-          (insight) => insight.category === activeCategory
-        );
+  const filteredInsights = insights.filter((insight) => {
+    const matchesCategory =
+      activeCategory === 'All' ||
+      insight.category === activeCategory;
+
+    const query = searchQuery.trim().toLowerCase();
+
+    const matchesSearch =
+      insight.title.toLowerCase().includes(query) ||
+      insight.excerpt.toLowerCase().includes(query) ||
+      insight.category.toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <>
@@ -162,52 +172,51 @@ export default function Insights() {
 
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
 
-            {/* LEFT */}
-            <div className="lg:col-span-7 mb-7 lg:-translate-y-6">
+              {/* LEFT */}
+              <div className="lg:col-span-7 mb-7 lg:-translate-y-6">
 
-              <div className="max-w-2xl">
+                <div className="max-w-2xl">
 
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#16A34A] mb-5">
-                  Insights
-                </p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#16A34A] mb-5">
+                    Insights
+                  </p>
 
-                <h1 className="text-3xl md:text-4xl lg:text-[3.1rem] font-bold tracking-tight leading-[1.06] text-slate-800">
-                  Ideas, guides &
-                  <br />
-                  <span className="text-[#16A34A]">
-                    perspectives on technology.
-                  </span>
-                </h1>
+                  <h1 className="text-3xl md:text-4xl lg:text-[3.1rem] font-bold tracking-tight leading-[1.06] text-slate-800">
+                    Ideas, guides &
+                    <br />
+                    <span className="text-[#16A34A]">
+                      perspectives on technology.
+                    </span>
+                  </h1>
 
-                <p className="mt-7 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">
-                  Practical knowledge for businesses and organizations
-                  navigating technology, digital transformation, and
-                  online growth.
-                </p>
+                  <p className="mt-7 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">
+                    Practical knowledge for businesses and organizations
+                    navigating technology, digital transformation, and
+                    online growth.
+                  </p>
 
-                {/* GREEN ACCENT LINE */}
-                <div className="mt-8 w-12 h-px bg-[#16A34A]" />
+                  {/* GREEN ACCENT LINE */}
+                  <div className="mt-8 w-12 h-px bg-[#16A34A]" />
 
-                <div className="mt-9 flex flex-wrap gap-3">
+                  <div className="mt-9 flex flex-wrap gap-3">
 
-                  <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
-                    Technology
-                  </span>
+                    <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
+                      Technology
+                    </span>
 
-                  <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
-                    Business
-                  </span>
+                    <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
+                      Business
+                    </span>
 
-                  <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
-                    Digital Growth
-                  </span>
+                    <span className="px-4 py-2 rounded-full bg-white text-xs font-medium text-slate-700">
+                      Digital Growth
+                    </span>
+
+                  </div>
 
                 </div>
 
               </div>
-
-            </div>
-
 
               {/* RIGHT */}
               <div className="lg:col-span-5">
@@ -243,7 +252,6 @@ export default function Insights() {
 
         </section>
 
-
         {/* INSIGHTS */}
         <section className="bg-white px-6 md:px-12 py-20 md:py-24">
 
@@ -273,7 +281,6 @@ export default function Insights() {
 
             </div>
 
-
             {/* CATEGORY FILTER */}
             <div className="mt-12 flex flex-wrap gap-2">
 
@@ -298,6 +305,68 @@ export default function Insights() {
 
             </div>
 
+            {/* SEARCH TOGGLE */}
+            <div className="mt-6 flex justify-start ">
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowSearch((previous) => {
+                    if (previous) {
+                      setSearchQuery('');
+                    }
+
+                    return !previous;
+                  });
+                }}
+                aria-label={showSearch ? 'Close search' : 'Open search'}
+                aria-expanded={showSearch}
+                className="flex items-center justify-center w-10 h-10 border border-slate-200 text-slate-600 hover:text-[#16A34A] hover:border-[#16A34A] transition-colors duration-200"
+              >
+                {showSearch ? (
+                  <span className="text-xl leading-none">&times;</span>
+                ) : (
+                  <Search size={18} strokeWidth={1.8} />
+                )}
+              </button>
+
+            </div>
+
+            {/* COLLAPSIBLE SEARCH BAR */}
+            <div
+              className={`grid transition-all duration-300 ease-in-out ${
+                showSearch
+                  ? 'grid-rows-[1fr] opacity-100 mt-3'
+                  : 'grid-rows-[0fr] opacity-0 mt-0'
+              }`}
+              aria-hidden={!showSearch}
+            >
+
+              <div className="overflow-hidden">
+
+                <div className="flex items-center gap-3 bg-[#F3F7F4] border border-slate-200 px-4 py-3.5 focus-within:border-[#16A34A] transition-colors duration-200 max-w-xl">
+
+                  <Search
+                    size={18}
+                    strokeWidth={1.8}
+                    className="text-slate-400 shrink-0"
+                  />
+
+                  <input
+                    type="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search insights, topics, or keywords..."
+                    aria-label="Search insights"
+                    tabIndex={showSearch ? 0 : -1}
+                    className="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+                  />
+
+                </div>
+
+              </div>
+
+            </div>
 
             {/* CARDS */}
             <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
@@ -311,10 +380,16 @@ export default function Insights() {
 
             </div>
 
+            {/* EMPTY SEARCH RESULTS */}
+            {filteredInsights.length === 0 && (
+              <p className="mt-12 text-sm text-slate-500">
+                No insights found. Try another search or category.
+              </p>
+            )}
+
           </div>
 
         </section>
-
 
         {/* CASE STUDY FEATURE */}
         <section className="bg-[#F3F7F4] px-6 md:px-12 py-20 md:py-24">
@@ -352,7 +427,6 @@ export default function Insights() {
 
               </div>
 
-
               <div className="lg:col-span-5">
 
                 <div className="bg-white p-8 md:p-10">
@@ -388,7 +462,6 @@ export default function Insights() {
           </div>
 
         </section>
-
 
         {/* CTA */}
         <section className="bg-slate-900 px-6 md:px-12 py-20 md:py-24">

@@ -1,0 +1,2 @@
+19/10
+We added an admin panel to the Novelty Works website, including an admin login page and dashboard to prepare for managing website content. We also added a search feature to the Insights page, allowing users to search for articles by title, description, and category. Additionally, we updated the routing so the admin pages are separate from the public website and do not display the public navigation bar.

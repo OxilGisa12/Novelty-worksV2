@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -17,6 +17,9 @@ import Insights from './pages/Insights';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
 
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLogin from './pages/admin/AdminLogin';
+
 function Home() {
   return (
     <>
@@ -31,22 +34,72 @@ function Home() {
   );
 }
 
+function PublicLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <ScrollToTop />
+      {children}
+      <ScrollToTopButton />
+    </>
+  );
+}
+
 function App() {
   return (
-    
-      <div className="min-h-screen bg-[#F3F7F4]">
-        <Navbar />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/reach-us" element={<ReachUs />} />
-          <Route path="/insights" element={<Insights />} />
-        </Routes>
-        <ScrollToTopButton />
-      </div>
-    
+    <div className="min-h-screen bg-[#F3F7F4]">
+      <Routes>
+        {/* PUBLIC WEBSITE */}
+        <Route
+          path="/"
+          element={
+            <PublicLayout>
+              <Home />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <PublicLayout>
+              <AboutUs />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/services"
+          element={
+            <PublicLayout>
+              <Services />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/reach-us"
+          element={
+            <PublicLayout>
+              <ReachUs />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/insights"
+          element={
+            <PublicLayout>
+              <Insights />
+            </PublicLayout>
+          }
+        />
+
+        {/* ADMIN PAGES — NO PUBLIC NAVBAR */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </div>
   );
 }
 
